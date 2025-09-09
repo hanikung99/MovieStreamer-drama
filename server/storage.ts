@@ -29,6 +29,7 @@ export class MemStorage implements IStorage {
 
   private initializeMovies() {
     const sampleMovies: InsertMovie[] = [
+      // PHIM LẺ - MOVIES
       {
         title: "The Dark Knight",
         description: "Khi mối đe dọa được gọi là Joker xuất hiện từ quá khứ bí ẩn của anh, tàn phá và tạo ra sự hỗn loạn cho người dân Gotham...",
@@ -39,7 +40,9 @@ export class MemStorage implements IStorage {
         posterUrl: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
         backdropUrl: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080",
         featured: 2,
-        category: "movie"
+        category: "movie",
+        director: "Christopher Nolan",
+        cast: ["Christian Bale", "Heath Ledger", "Aaron Eckhart"]
       },
       {
         title: "Blade Runner 2049",
@@ -51,7 +54,9 @@ export class MemStorage implements IStorage {
         posterUrl: "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
         backdropUrl: "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080",
         featured: 2,
-        category: "movie"
+        category: "movie",
+        director: "Denis Villeneuve",
+        cast: ["Ryan Gosling", "Harrison Ford", "Ana de Armas"]
       },
       {
         title: "La La Land",
@@ -63,7 +68,9 @@ export class MemStorage implements IStorage {
         posterUrl: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
         backdropUrl: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080",
         featured: 2,
-        category: "movie"
+        category: "movie",
+        director: "Damien Chazelle",
+        cast: ["Ryan Gosling", "Emma Stone", "John Legend"]
       },
       {
         title: "Inception",
@@ -75,103 +82,130 @@ export class MemStorage implements IStorage {
         posterUrl: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
         backdropUrl: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080",
         featured: 1,
-        category: "movie"
+        category: "movie",
+        director: "Christopher Nolan",
+        cast: ["Leonardo DiCaprio", "Marion Cotillard", "Tom Hardy"]
       },
+
+      // PHIM BỘ - SERIES
       {
-        title: "Interstellar",
-        description: "Một nhóm các nhà thám hiểm thực hiện nhiệm vụ quan trọng nhất trong lịch sử loài người...",
-        year: 2014,
-        duration: 169,
-        rating: 8.6,
-        genre: "Khoa học viễn tưởng, Chính kịch",
+        title: "Breaking Bad",
+        description: "Một giáo viên hóa học trung học bắt đầu sản xuất và bán methamphetamine sau khi được chẩn đoán mắc bệnh ung thư phổi...",
+        year: 2008,
+        duration: 47,
+        rating: 9.5,
+        genre: "Tội phạm, Chính kịch, Thriller",
         posterUrl: "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
         backdropUrl: "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080",
-        featured: 1,
-        category: "movie"
+        featured: 2,
+        category: "series",
+        episodes: 62,
+        director: "Vince Gilligan",
+        cast: ["Bryan Cranston", "Aaron Paul", "Anna Gunn"]
       },
       {
-        title: "The Conjuring",
-        description: "Những nhà điều tra siêu nhiên Ed và Lorraine Warren làm việc để giúp đỡ một gia đình...",
-        year: 2013,
-        duration: 112,
-        rating: 7.5,
-        genre: "Kinh dị, Bí ẩn",
+        title: "Stranger Things",
+        description: "Khi một cậu bé biến mất, thị trấn nhỏ của anh ta phát hiện ra một bí ẩn liên quan đến các thí nghiệm bí mật...",
+        year: 2016,
+        duration: 51,
+        rating: 8.7,
+        genre: "Khoa học viễn tưởng, Kinh dị, Chính kịch",
         posterUrl: "https://images.unsplash.com/photo-1509564324749-471bd272e1ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
         backdropUrl: "https://images.unsplash.com/photo-1509564324749-471bd272e1ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080",
         featured: 1,
-        category: "movie"
+        category: "series",
+        episodes: 42,
+        director: "Duffer Brothers",
+        cast: ["Millie Bobby Brown", "Finn Wolfhard", "David Harbour"]
       },
       {
-        title: "The Grand Budapest Hotel",
-        description: "Cuộc phiêu lưu của một huyền thoại khách sạn concierge và protégé của ông...",
-        year: 2014,
-        duration: 99,
-        rating: 8.1,
-        genre: "Hài, Chính kịch",
-        posterUrl: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
-        backdropUrl: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080",
-        featured: 1,
-        category: "movie"
-      },
-      {
-        title: "Mad Max: Fury Road",
-        description: "Trong một thế giới hoang tàn hậu tận thế, Max hợp tác với Furiosa để trốn thoát...",
-        year: 2015,
-        duration: 120,
-        rating: 8.1,
-        genre: "Hành động, Phiêu lưu",
-        posterUrl: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
-        backdropUrl: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080",
-        featured: 1,
-        category: "movie"
-      },
-      {
-        title: "Parasite",
-        description: "Câu chuyện về sự bất bình đẳng xã hội qua gia đình nghèo xâm nhập vào cuộc sống của gia đình giàu có...",
-        year: 2019,
-        duration: 132,
-        rating: 8.6,
-        genre: "Chính kịch, Thriller",
-        posterUrl: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
-        backdropUrl: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080",
-        featured: 1,
-        category: "movie"
-      },
-      {
-        title: "Avengers: Endgame",
-        description: "Sau những sự kiện tàn khốc của Infinity War, các siêu anh hùng tập hợp để đảo ngược thiệt hại...",
-        year: 2019,
-        duration: 181,
-        rating: 8.4,
-        genre: "Hành động, Phiêu lưu",
-        posterUrl: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
-        backdropUrl: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080",
-        featured: 0,
-        category: "movie"
-      },
-      {
-        title: "Shutter Island",
-        description: "Hai thám tử U.S. Marshal điều tra vụ mất tích của một bệnh nhân tại bệnh viện tâm thần...",
-        year: 2010,
-        duration: 138,
-        rating: 8.2,
-        genre: "Bí ẩn, Thriller",
-        posterUrl: "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
-        backdropUrl: "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080",
-        featured: 0,
-        category: "movie"
-      },
-      {
-        title: "Spirited Away",
-        description: "Một cô bé 10 tuổi phải làm việc tại nhà tắm thần linh để cứu cha mẹ mình...",
-        year: 2001,
-        duration: 125,
+        title: "Game of Thrones",
+        description: "Các gia tộc quý족 tranh giành quyền lực để kiểm soát Bảy Vương quốc của Westeros...",
+        year: 2011,
+        duration: 57,
         rating: 9.3,
+        genre: "Hành động, Phiêu lưu, Chính kịch",
+        posterUrl: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
+        backdropUrl: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080",
+        featured: 1,
+        category: "series",
+        episodes: 73,
+        director: "David Benioff, D.B. Weiss",
+        cast: ["Emilia Clarke", "Kit Harington", "Peter Dinklage"]
+      },
+
+      // PHIM NGẮN - SHORT FILMS
+      {
+        title: "The Present",
+        description: "Một câu chuyện cảm động về một cậu bé và chú chó con khuyết tật, khám phá chủ đề về sự chấp nhận bản thân...",
+        year: 2014,
+        duration: 4,
+        rating: 8.1,
         genre: "Hoạt hình, Gia đình",
         posterUrl: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
         backdropUrl: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080",
+        featured: 1,
+        category: "short",
+        director: "Jacob Frey",
+        cast: ["Samantha Brown"]
+      },
+      {
+        title: "Paperman",
+        description: "Một bộ phim hoạt hình ngắn kể về cuộc gặp gỡ ngẫu nhiên giữa một người đàn ông và một người phụ nữ...",
+        year: 2012,
+        duration: 7,
+        rating: 8.3,
+        genre: "Hoạt hình, Lãng mạn",
+        posterUrl: "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
+        backdropUrl: "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080",
         featured: 0,
-        category: "movie"
+        category: "short",
+        director: "John Kahrs",
+        cast: []
+      },
+      {
+        title: "Bao",
+        description: "Một người mẹ cô đơn tìm thấy niềm vui mới khi một chiếc bánh bao mà bà làm trở thành sống...",
+        year: 2018,
+        duration: 8,
+        rating: 7.5,
+        genre: "Hoạt hình, Gia đình",
+        posterUrl: "https://images.unsplash.com/photo-1509564324749-471bd272e1ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
+        backdropUrl: "https://images.unsplash.com/photo-1509564324749-471bd272e1ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080",
+        featured: 0,
+        category: "short",
+        director: "Domee Shi",
+        cast: []
+      },
+
+      // REVIEW PHIM - MOVIE REVIEWS
+      {
+        title: "Đánh Giá: The Dark Knight - Kiệt Tác Siêu Anh Hùng",
+        description: "Phân tích chi tiết về The Dark Knight, từ diễn xuất của Heath Ledger đến kỹ thuật quay phim độc đáo của Christopher Nolan...",
+        year: 2023,
+        duration: 15,
+        rating: 9.2,
+        genre: "Review, Phân tích phim",
+        posterUrl: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
+        backdropUrl: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080",
+        featured: 1,
+        category: "review",
+        director: "CinemaHub Review Team",
+        cast: ["Reviewer A"]
+      },
+      {
+        title: "Đánh Giá: Parasite - Kiệt Tác Xã Hội",
+        description: "Phân tích sâu sắc về bộ phim Parasite của Bong Joon-ho, khám phá các tầng lớp ý nghĩa xã hội và nghệ thuật...",
+        year: 2023,
+        duration: 18,
+        rating: 8.8,
+        genre: "Review, Phân tích phim",
+        posterUrl: "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
+        backdropUrl: "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080",
+        featured: 0,
+        category: "review",
+        director: "CinemaHub Review Team",
+        cast: ["Reviewer B"]
       }
     ];
 

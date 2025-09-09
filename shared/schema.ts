@@ -15,6 +15,9 @@ export const movies = pgTable("movies", {
   backdropUrl: text("backdrop_url"),
   featured: integer("featured").default(0), // 0 = not featured, 1 = featured, 2 = hero
   category: text("category").notNull(), // "movie", "series", "short", "review"
+  episodes: integer("episodes"), // for series - number of episodes
+  director: text("director"),
+  cast: text("cast").array(),
 });
 
 export const insertMovieSchema = createInsertSchema(movies).omit({
