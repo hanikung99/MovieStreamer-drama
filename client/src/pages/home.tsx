@@ -12,28 +12,35 @@ import type { Movie } from "@shared/schema";
 
 export default function Home() {
   const [searchOpen, setSearchOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const { data: allMovies = [], isLoading } = useQuery<Movie[]>({
     queryKey: ['/api/movies'],
   });
 
+  const scrollToSection = (sectionId: string) => {
+    document.getElementById(sectionId)?.scrollIntoView({behavior: 'smooth'});
+    setMobileMenuOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center space-x-8">
-            <h1 className="text-2xl font-bold text-primary" data-testid="logo">CinemaHub</h1>
-            <nav className="hidden md:flex items-center space-x-6">
-              <button className="text-foreground hover:text-primary transition-colors" data-testid="nav-home" onClick={() => window.location.reload()}>Trang chủ</button>
-              <button className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-movies" onClick={() => document.getElementById('movies-section')?.scrollIntoView({behavior: 'smooth'})}>Phim lẻ</button>
-              <button className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-series" onClick={() => document.getElementById('series-section')?.scrollIntoView({behavior: 'smooth'})}>Phim bộ</button>
-              <button className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-shorts" onClick={() => document.getElementById('shorts-section')?.scrollIntoView({behavior: 'smooth'})}>Phim ngắn</button>
-              <button className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-reviews" onClick={() => document.getElementById('reviews-section')?.scrollIntoView({behavior: 'smooth'})}>Review</button>
-            </nav>
-          </div>
+        <div className="px-4 h-14 flex items-center justify-between">
+          <h1 className="text-xl md:text-2xl font-bold text-primary" data-testid="logo">CinemaHub</h1>
           
-          <div className="flex items-center space-x-4">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-6">
+            <button className="text-foreground hover:text-primary transition-colors" data-testid="nav-home" onClick={() => window.location.reload()}>Trang chủ</button>
+            <button className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-movies" onClick={() => scrollToSection('movies-section')}>Phim lẻ</button>
+            <button className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-series" onClick={() => scrollToSection('series-section')}>Phim bộ</button>
+            <button className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-shorts" onClick={() => scrollToSection('shorts-section')}>Phim ngắn</button>
+            <button className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-reviews" onClick={() => scrollToSection('reviews-section')}>Review</button>
+          </nav>
+          
+          {/* Mobile & Desktop Actions */}
+          <div className="flex items-center space-x-2">
             <Button
               variant="ghost"
               size="sm"
@@ -43,15 +50,68 @@ export default function Home() {
             >
               <Search className="h-5 w-5" />
             </Button>
-            <Button className="hidden md:block" data-testid="button-login">
+            <Button className="hidden md:flex" size="sm" data-testid="button-login">
               <User className="h-4 w-4 mr-2" />
               Đăng nhập
             </Button>
-            <Button variant="ghost" size="sm" className="md:hidden p-2" data-testid="button-menu">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="md:hidden p-2" 
+              data-testid="button-menu"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
               <Menu className="h-5 w-5" />
             </Button>
           </div>
         </div>
+
+        {/* Mobile Navigation Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-border bg-background/95 backdrop-blur">
+            <div className="px-4 py-4 space-y-3">
+              <button 
+                className="block w-full text-left py-3 text-foreground hover:text-primary transition-colors border-b border-border/50" 
+                data-testid="mobile-nav-home"
+                onClick={() => {window.location.reload(); setMobileMenuOpen(false);}}
+              >
+                Trang chủ
+              </button>
+              <button 
+                className="block w-full text-left py-3 text-muted-foreground hover:text-primary transition-colors border-b border-border/50" 
+                data-testid="mobile-nav-movies"
+                onClick={() => scrollToSection('movies-section')}
+              >
+                Phim lẻ
+              </button>
+              <button 
+                className="block w-full text-left py-3 text-muted-foreground hover:text-primary transition-colors border-b border-border/50" 
+                data-testid="mobile-nav-series"
+                onClick={() => scrollToSection('series-section')}
+              >
+                Phim bộ
+              </button>
+              <button 
+                className="block w-full text-left py-3 text-muted-foreground hover:text-primary transition-colors border-b border-border/50" 
+                data-testid="mobile-nav-shorts"
+                onClick={() => scrollToSection('shorts-section')}
+              >
+                Phim ngắn
+              </button>
+              <button 
+                className="block w-full text-left py-3 text-muted-foreground hover:text-primary transition-colors border-b border-border/50" 
+                data-testid="mobile-nav-reviews"
+                onClick={() => scrollToSection('reviews-section')}
+              >
+                Review
+              </button>
+              <Button className="w-full mt-4" data-testid="mobile-button-login">
+                <User className="h-4 w-4 mr-2" />
+                Đăng nhập
+              </Button>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Main Content */}
