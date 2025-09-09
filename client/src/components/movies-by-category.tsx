@@ -18,9 +18,9 @@ export default function MoviesByCategory({ category }: MoviesByCategoryProps) {
 
   if (isLoading) {
     return (
-      <div className="flex space-x-4 overflow-x-auto pb-4">
+      <div className="flex space-x-3 md:space-x-4 overflow-x-auto pb-4">
         {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="flex-none w-48 md:w-56 bg-muted animate-pulse rounded-lg h-80" />
+          <div key={i} className="flex-none w-40 md:w-48 lg:w-56 bg-muted animate-pulse rounded-lg h-60 md:h-80" />
         ))}
       </div>
     );
@@ -36,17 +36,18 @@ export default function MoviesByCategory({ category }: MoviesByCategoryProps) {
 
   return (
     <div className="relative">
-      <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide">
+      <div className="flex space-x-3 md:space-x-4 overflow-x-auto pb-4 scrollbar-hide px-1">
         {movies.map((movie) => (
           <div key={movie.id} className="flex-none">
             <MovieCard 
               movie={movie}
+              size="sm"
               onClick={() => console.log('Open movie detail:', movie.id)}
-              className="transition-transform hover:scale-105"
+              className="transition-transform active:scale-95 md:hover:scale-105"
             />
             {/* Display episode count for series */}
             {category === "series" && movie.episodes && (
-              <div className="mt-2 text-center">
+              <div className="mt-1 md:mt-2 text-center">
                 <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded" data-testid={`episodes-${movie.id}`}>
                   {movie.episodes} tập
                 </span>
@@ -54,7 +55,7 @@ export default function MoviesByCategory({ category }: MoviesByCategoryProps) {
             )}
             {/* Display duration for short films and reviews */}
             {(category === "short" || category === "review") && (
-              <div className="mt-2 text-center">
+              <div className="mt-1 md:mt-2 text-center">
                 <span className="text-xs bg-accent text-accent-foreground px-2 py-1 rounded" data-testid={`duration-${movie.id}`}>
                   {movie.duration} phút
                 </span>

@@ -121,33 +121,33 @@ export default function Home() {
         <CategorySection />
         
         {/* Movies Section */}
-        <section id="movies-section" className="py-12 px-4">
+        <section id="movies-section" className="py-6 md:py-12 px-4">
           <div className="container mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold mb-8" data-testid="movies-section-title">Phim Lẻ</h2>
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4 md:mb-8" data-testid="movies-section-title">Phim Lẻ</h2>
             <MoviesByCategory category="movie" />
           </div>
         </section>
 
         {/* Series Section */}
-        <section id="series-section" className="py-12 px-4 bg-muted/10">
+        <section id="series-section" className="py-6 md:py-12 px-4 bg-muted/10">
           <div className="container mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold mb-8" data-testid="series-section-title">Phim Bộ</h2>
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4 md:mb-8" data-testid="series-section-title">Phim Bộ</h2>
             <MoviesByCategory category="series" />
           </div>
         </section>
 
         {/* Short Films Section */}
-        <section id="shorts-section" className="py-12 px-4">
+        <section id="shorts-section" className="py-6 md:py-12 px-4">
           <div className="container mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold mb-8" data-testid="shorts-section-title">Phim Ngắn</h2>
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4 md:mb-8" data-testid="shorts-section-title">Phim Ngắn</h2>
             <MoviesByCategory category="short" />
           </div>
         </section>
 
         {/* Reviews Section */}
-        <section id="reviews-section" className="py-12 px-4 bg-muted/10">
+        <section id="reviews-section" className="py-6 md:py-12 px-4 bg-muted/10">
           <div className="container mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold mb-8" data-testid="reviews-section-title">Review Phim</h2>
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4 md:mb-8" data-testid="reviews-section-title">Review Phim</h2>
             <MoviesByCategory category="review" />
           </div>
         </section>

@@ -11,15 +11,15 @@ interface MovieCardProps {
 
 export default function MovieCard({ movie, onClick, className = "", size = "md" }: MovieCardProps) {
   const sizeClasses = {
-    sm: "w-40 md:w-48",
-    md: "w-48 md:w-56",
-    lg: "w-56 md:w-64"
+    sm: "w-36 sm:w-40 md:w-48",
+    md: "w-40 sm:w-44 md:w-56",
+    lg: "w-44 sm:w-48 md:w-64"
   };
 
   const heightClasses = {
-    sm: "h-56 md:h-72",
-    md: "h-64 md:h-80",
-    lg: "h-80 md:h-96"
+    sm: "h-52 sm:h-56 md:h-72",
+    md: "h-56 sm:h-60 md:h-80",
+    lg: "h-64 sm:h-72 md:h-96"
   };
 
   return (
