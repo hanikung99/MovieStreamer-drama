@@ -211,7 +211,16 @@ export class MemStorage implements IStorage {
 
     sampleMovies.forEach(movie => {
       const id = randomUUID();
-      this.movies.set(id, { ...movie, id });
+      const movieData: Movie = {
+        ...movie,
+        id,
+        backdropUrl: movie.backdropUrl || null,
+        featured: movie.featured || 0,
+        episodes: movie.episodes || null,
+        director: movie.director || null,
+        cast: movie.cast || null
+      };
+      this.movies.set(id, movieData);
     });
   }
 
@@ -269,7 +278,15 @@ export class MemStorage implements IStorage {
 
   async createMovie(insertMovie: InsertMovie): Promise<Movie> {
     const id = randomUUID();
-    const movie: Movie = { ...insertMovie, id };
+    const movie: Movie = {
+      ...insertMovie,
+      id,
+      backdropUrl: insertMovie.backdropUrl || null,
+      featured: insertMovie.featured || 0,
+      episodes: insertMovie.episodes || null,
+      director: insertMovie.director || null,
+      cast: insertMovie.cast || null
+    };
     this.movies.set(id, movie);
     return movie;
   }

@@ -7,6 +7,7 @@ import FeaturedMovies from "@/components/featured-movies";
 import MovieGrid from "@/components/movie-grid";
 import CategorySection from "@/components/category-section";
 import SearchOverlay from "@/components/search-overlay";
+import MoviesByCategory from "@/components/movies-by-category";
 import type { Movie } from "@shared/schema";
 
 export default function Home() {
@@ -24,11 +25,11 @@ export default function Home() {
           <div className="flex items-center space-x-8">
             <h1 className="text-2xl font-bold text-primary" data-testid="logo">CinemaHub</h1>
             <nav className="hidden md:flex items-center space-x-6">
-              <a href="#" className="text-foreground hover:text-primary transition-colors" data-testid="nav-home">Trang chủ</a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-movies">Phim lẻ</a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-series">Phim bộ</a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-shorts">Phim ngắn</a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-reviews">Review</a>
+              <button className="text-foreground hover:text-primary transition-colors" data-testid="nav-home" onClick={() => window.location.reload()}>Trang chủ</button>
+              <button className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-movies" onClick={() => document.getElementById('movies-section')?.scrollIntoView({behavior: 'smooth'})}>Phim lẻ</button>
+              <button className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-series" onClick={() => document.getElementById('series-section')?.scrollIntoView({behavior: 'smooth'})}>Phim bộ</button>
+              <button className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-shorts" onClick={() => document.getElementById('shorts-section')?.scrollIntoView({behavior: 'smooth'})}>Phim ngắn</button>
+              <button className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-reviews" onClick={() => document.getElementById('reviews-section')?.scrollIntoView({behavior: 'smooth'})}>Review</button>
             </nav>
           </div>
           
@@ -58,6 +59,39 @@ export default function Home() {
         <HeroSection />
         <FeaturedMovies />
         <CategorySection />
+        
+        {/* Movies Section */}
+        <section id="movies-section" className="py-12 px-4">
+          <div className="container mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold mb-8" data-testid="movies-section-title">Phim Lẻ</h2>
+            <MoviesByCategory category="movie" />
+          </div>
+        </section>
+
+        {/* Series Section */}
+        <section id="series-section" className="py-12 px-4 bg-muted/10">
+          <div className="container mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold mb-8" data-testid="series-section-title">Phim Bộ</h2>
+            <MoviesByCategory category="series" />
+          </div>
+        </section>
+
+        {/* Short Films Section */}
+        <section id="shorts-section" className="py-12 px-4">
+          <div className="container mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold mb-8" data-testid="shorts-section-title">Phim Ngắn</h2>
+            <MoviesByCategory category="short" />
+          </div>
+        </section>
+
+        {/* Reviews Section */}
+        <section id="reviews-section" className="py-12 px-4 bg-muted/10">
+          <div className="container mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold mb-8" data-testid="reviews-section-title">Review Phim</h2>
+            <MoviesByCategory category="review" />
+          </div>
+        </section>
+
         <MovieGrid />
       </main>
 
