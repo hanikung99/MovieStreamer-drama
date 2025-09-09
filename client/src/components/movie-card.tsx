@@ -49,9 +49,14 @@ export default function MovieCard({ movie, onClick, className = "", size = "md" 
         <div className="flex items-center justify-between text-sm text-muted-foreground">
           <span data-testid={`year-${movie.id}`}>{movie.year}</span>
           <span className="text-xs bg-muted px-2 py-1 rounded" data-testid={`duration-${movie.id}`}>
-            {movie.duration}m
+            {movie.category === "series" && movie.episodes ? `${movie.episodes} tập` : `${movie.duration}m`}
           </span>
         </div>
+        {movie.director && (
+          <p className="text-xs text-muted-foreground mt-1 line-clamp-1" data-testid={`director-${movie.id}`}>
+            Đạo diễn: {movie.director}
+          </p>
+        )}
         <p className="text-xs text-muted-foreground mt-1 line-clamp-1" data-testid={`genre-${movie.id}`}>
           {movie.genre}
         </p>
