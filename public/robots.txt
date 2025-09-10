@@ -1,0 +1,69 @@
+# MovieStreamer-Drama Robots.txt
+# Mobile-first movie streaming platform
+
+User-agent: *
+Allow: /
+
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /api/auth/
+Disallow: /api/admin/
+Disallow: /_next/
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /src/
+Disallow: /server/
+
+# Allow API endpoints for content discovery
+Allow: /api/movies
+Allow: /api/videos
+Allow: /api/search
+
+# Allow static assets
+Allow: /icons/
+Allow: /images/
+Allow: /assets/
+Allow: /manifest.json
+Allow: /sw.js
+Allow: /offline.html
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://moviestreamer-drama.vercel.app/sitemap.xml
+
+# Additional sitemaps for different content types
+Sitemap: https://moviestreamer-drama.vercel.app/sitemap-movies.xml
+Sitemap: https://moviestreamer-drama.vercel.app/sitemap-shorts.xml
+
+# Host directive (preferred domain)
+Host: https://moviestreamer-drama.vercel.app
+
+# Clean URLs - redirect from www to non-www
+# This should be handled by server configuration
