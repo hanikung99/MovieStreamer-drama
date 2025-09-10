@@ -8,11 +8,19 @@ import MovieGrid from "@/components/movie-grid";
 import CategorySection from "@/components/category-section";
 import SearchOverlay from "@/components/search-overlay";
 import MoviesByCategory from "@/components/movies-by-category";
+import MobileHeader from "@/components/mobile-header";
+import BottomNavigation from "@/components/bottom-navigation";
+import { useActiveSection } from "@/hooks/useActiveSection";
+import { useMobileDevice } from "@/hooks/use-mobile";
 import type { Movie } from "@shared/schema";
 
 export default function Home() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  const device = useMobileDevice();
+  const sectionIds = ['hero-section', 'movies-section', 'series-section', 'shorts-section', 'reviews-section'];
+  const activeSection = useActiveSection(sectionIds);
 
   const { data: allMovies = [], isLoading } = useQuery<Movie[]>({
     queryKey: ['/api/movies'],
@@ -24,130 +32,59 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="px-4 h-14 flex items-center justify-between">
-          <h1 className="text-xl md:text-2xl font-bold text-primary" data-testid="logo">CinemaHub</h1>
-          
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
-            <button className="text-foreground hover:text-primary transition-colors" data-testid="nav-home" onClick={() => window.location.reload()}>Trang chủ</button>
-            <button className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-movies" onClick={() => scrollToSection('movies-section')}>Phim lẻ</button>
-            <button className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-series" onClick={() => scrollToSection('series-section')}>Phim bộ</button>
-            <button className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-shorts" onClick={() => scrollToSection('shorts-section')}>Phim ngắn</button>
-            <button className="text-muted-foreground hover:text-primary transition-colors" data-testid="nav-reviews" onClick={() => scrollToSection('reviews-section')}>Review</button>
-          </nav>
-          
-          {/* Mobile & Desktop Actions */}
-          <div className="flex items-center space-x-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setSearchOpen(true)}
-              className="p-2 hover:bg-accent"
-              data-testid="button-search"
-            >
-              <Search className="h-5 w-5" />
-            </Button>
-            <Button className="hidden md:flex" size="sm" data-testid="button-login">
-              <User className="h-4 w-4 mr-2" />
-              Đăng nhập
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="md:hidden p-2" 
-              data-testid="button-menu"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              <Menu className="h-5 w-5" />
-            </Button>
-          </div>
-        </div>
+    <div className="min-h-screen-mobile bg-background text-foreground">
+      {/* Mobile-First Header */}
+      <MobileHeader 
+        onSearchOpen={() => setSearchOpen(true)}
+        onSectionScroll={scrollToSection}
+      />
 
-        {/* Mobile Navigation Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t border-border bg-background/95 backdrop-blur">
-            <div className="px-4 py-4 space-y-3">
-              <button 
-                className="block w-full text-left py-3 text-foreground hover:text-primary transition-colors border-b border-border/50" 
-                data-testid="mobile-nav-home"
-                onClick={() => {window.location.reload(); setMobileMenuOpen(false);}}
-              >
-                Trang chủ
-              </button>
-              <button 
-                className="block w-full text-left py-3 text-muted-foreground hover:text-primary transition-colors border-b border-border/50" 
-                data-testid="mobile-nav-movies"
-                onClick={() => scrollToSection('movies-section')}
-              >
-                Phim lẻ
-              </button>
-              <button 
-                className="block w-full text-left py-3 text-muted-foreground hover:text-primary transition-colors border-b border-border/50" 
-                data-testid="mobile-nav-series"
-                onClick={() => scrollToSection('series-section')}
-              >
-                Phim bộ
-              </button>
-              <button 
-                className="block w-full text-left py-3 text-muted-foreground hover:text-primary transition-colors border-b border-border/50" 
-                data-testid="mobile-nav-shorts"
-                onClick={() => scrollToSection('shorts-section')}
-              >
-                Phim ngắn
-              </button>
-              <button 
-                className="block w-full text-left py-3 text-muted-foreground hover:text-primary transition-colors border-b border-border/50" 
-                data-testid="mobile-nav-reviews"
-                onClick={() => scrollToSection('reviews-section')}
-              >
-                Review
-              </button>
-              <Button className="w-full mt-4" data-testid="mobile-button-login">
-                <User className="h-4 w-4 mr-2" />
-                Đăng nhập
-              </Button>
-            </div>
-          </div>
-        )}
-      </header>
-
-      {/* Main Content */}
-      <main>
-        <HeroSection />
+      {/* Main Content - Add bottom padding for mobile navigation */}
+      <main className="mobile:pb-[calc(var(--mobile-bottom-nav-height)+var(--mobile-safe-area-bottom))] md:pb-0">
+        {/* Hero Section */}
+        <section id="hero-section">
+          <HeroSection />
+        </section>
+        
         <FeaturedMovies />
         <CategorySection />
         
         {/* Movies Section */}
-        <section id="movies-section" className="py-6 md:py-12 px-4">
+        <section id="movies-section" className="py-mobile-lg md:py-12 px-mobile-md md:px-4">
           <div className="container mx-auto">
-            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4 md:mb-8" data-testid="movies-section-title">Phim Lẻ</h2>
+            <h2 className="text-xl-mobile md:text-2xl lg:text-3xl font-bold mb-mobile-md md:mb-8" data-testid="movies-section-title">
+              Phim Lẻ
+            </h2>
             <MoviesByCategory category="movie" />
           </div>
         </section>
 
         {/* Series Section */}
-        <section id="series-section" className="py-6 md:py-12 px-4 bg-muted/10">
+        <section id="series-section" className="py-mobile-lg md:py-12 px-mobile-md md:px-4 bg-muted/10">
           <div className="container mx-auto">
-            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4 md:mb-8" data-testid="series-section-title">Phim Bộ</h2>
+            <h2 className="text-xl-mobile md:text-2xl lg:text-3xl font-bold mb-mobile-md md:mb-8" data-testid="series-section-title">
+              Phim Bộ
+            </h2>
             <MoviesByCategory category="series" />
           </div>
         </section>
 
         {/* Short Films Section */}
-        <section id="shorts-section" className="py-6 md:py-12 px-4">
+        <section id="shorts-section" className="py-mobile-lg md:py-12 px-mobile-md md:px-4">
           <div className="container mx-auto">
-            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4 md:mb-8" data-testid="shorts-section-title">Phim Ngắn</h2>
+            <h2 className="text-xl-mobile md:text-2xl lg:text-3xl font-bold mb-mobile-md md:mb-8" data-testid="shorts-section-title">
+              Phim Ngắn
+            </h2>
             <MoviesByCategory category="short" />
           </div>
         </section>
 
         {/* Reviews Section */}
-        <section id="reviews-section" className="py-6 md:py-12 px-4 bg-muted/10">
+        <section id="reviews-section" className="py-mobile-lg md:py-12 px-mobile-md md:px-4 bg-muted/10">
           <div className="container mx-auto">
-            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4 md:mb-8" data-testid="reviews-section-title">Review Phim</h2>
+            <h2 className="text-xl-mobile md:text-2xl lg:text-3xl font-bold mb-mobile-md md:mb-8" data-testid="reviews-section-title">
+              Review Phim
+            </h2>
             <MoviesByCategory category="review" />
           </div>
         </section>
@@ -228,6 +165,13 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Mobile Bottom Navigation */}
+      <BottomNavigation 
+        onSearchOpen={() => setSearchOpen(true)}
+        onSectionScroll={scrollToSection}
+        activeSection={activeSection}
+      />
 
       {/* Search Overlay */}
       <SearchOverlay open={searchOpen} onOpenChange={setSearchOpen} />
