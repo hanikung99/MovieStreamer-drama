@@ -1,0 +1,19 @@
+<svg width="384" height="384" viewBox="0 0 384 384" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="384" height="384" rx="76.80000000000001" fill="url(#gradient)"/>
+  
+  <!-- Play button icon -->
+  <path d="M134.39999999999998 96L288 192L134.39999999999998 288V96Z" fill="white"/>
+  
+  <!-- Film strip decoration -->
+  <rect x="38.400000000000006" y="57.599999999999994" width="307.20000000000005" height="19.200000000000003" fill="white" opacity="0.3"/>
+  <rect x="38.400000000000006" y="307.20000000000005" width="307.20000000000005" height="19.200000000000003" fill="white" opacity="0.3"/>
+  
+  <!-- Gradient definition -->
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>
