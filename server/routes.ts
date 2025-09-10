@@ -1,7 +1,12 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./storage";
-import { insertMovieSchema } from "@shared/schema";
+import { storageEnhanced as storage } from "./storage-enhanced";
+import { 
+  insertMovieSchema, 
+  getVerticalVideosSchema,
+  trackVideoViewSchema,
+  toggleFavoriteSchema 
+} from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Movie routes
@@ -85,6 +90,138 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(201).json(movie);
     } catch (error) {
       res.status(400).json({ message: "Invalid movie data" });
+    }
+  });
+
+  // Vertical Videos API
+  app.get("/api/videos/vertical", async (req, res) => {
+    try {
+      const params = getVerticalVideosSchema.parse({
+        limit: req.query.limit ? parseInt(req.query.limit as string) : 10,
+        offset: req.query.offset ? parseInt(req.query.offset as string) : 0,
+        quality: req.query.quality as string,
+      });
+      
+      const videos = await storage.getVerticalVideos(params);
+      res.json(videos);
+    } catch (error) {
+      res.status(400).json({ message: "Invalid request parameters" });
+    }
+  });
+
+  // Video streaming endpoint
+  app.get("/api/videos/:id/stream", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const movie = await storage.getMovieById(id);
+      
+      if (!movie || !movie.videoUrl) {
+        return res.status(404).json({ message: "Video not found" });
+      }
+
+      // For now, redirect to the video URL
+      // In production, this would handle video streaming with proper headers
+      res.redirect(movie.videoUrl);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to stream video" });
+    }
+  });
+
+  // Video Analytics API
+  app.post("/api/videos/:id/analytics", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const validatedData = trackVideoViewSchema.parse({
+        ...req.body,
+        movieId: id,
+      });
+      
+      const analytics = await storage.trackVideoView(validatedData);
+      res.status(201).json(analytics);
+    } catch (error) {
+      res.status(400).json({ message: "Invalid analytics data" });
+    }
+  });
+
+  // Get video analytics
+  app.get("/api/videos/:id/analytics", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const analytics = await storage.getVideoAnalytics(id);
+      res.json(analytics);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch video analytics" });
+    }
+  });
+
+  // User Favorites API
+  app.post("/api/users/:userId/favorites", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const validatedData = toggleFavoriteSchema.parse({
+        ...req.body,
+        userId,
+      });
+      
+      const favorite = await storage.toggleFavorite(validatedData);
+      res.status(201).json(favorite);
+    } catch (error) {
+      res.status(400).json({ message: "Invalid favorite data" });
+    }
+  });
+
+  // Get user favorites
+  app.get("/api/users/:userId/favorites", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const favorites = await storage.getUserFavorites(userId);
+      res.json(favorites);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch user favorites" });
+    }
+  });
+
+  // Delete favorite
+  app.delete("/api/users/:userId/favorites/:movieId", async (req, res) => {
+    try {
+      const { userId, movieId } = req.params;
+      await storage.removeFavorite(userId, movieId);
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ message: "Failed to remove favorite" });
+    }
+  });
+
+  // Mobile-specific endpoints
+  app.get("/api/mobile/movies", async (req, res) => {
+    try {
+      const movies = await storage.getMobileOptimizedMovies();
+      res.json(movies);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch mobile-optimized movies" });
+    }
+  });
+
+  // Update movie view count
+  app.post("/api/movies/:id/view", async (req, res) => {
+    try {
+      const { id } = req.params;
+      await storage.incrementViewCount(id);
+      res.status(200).json({ message: "View count updated" });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to update view count" });
+    }
+  });
+
+  // Update movie like count
+  app.post("/api/movies/:id/like", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { increment } = req.body; // true to increment, false to decrement
+      await storage.updateLikeCount(id, increment);
+      res.status(200).json({ message: "Like count updated" });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to update like count" });
     }
   });
 
