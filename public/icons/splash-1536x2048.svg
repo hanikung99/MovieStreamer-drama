@@ -1,0 +1,25 @@
+<svg width="1536" height="2048" viewBox="0 0 1536 2048" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1536" height="2048" fill="url(#bgGradient)"/>
+  
+  <!-- Center icon -->
+  <g transform="translate(652.8, 908.8)">
+    <rect width="230.39999999999998" height="230.39999999999998" rx="46.08" fill="url(#iconGradient)"/>
+    <path d="M80.63999999999999 57.599999999999994L172.79999999999998 115.19999999999999L80.63999999999999 172.79999999999998V57.599999999999994Z" fill="white"/>
+  </g>
+  
+  <!-- App name -->
+  <text x="768" y="1179.2" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="600">MovieStreamer</text>
+  
+  <!-- Gradients -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>
