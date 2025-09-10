@@ -7,15 +7,28 @@ import {
   trackVideoViewSchema,
   toggleFavoriteSchema 
 } from "@shared/schema";
+import authRoutes from "./routes/auth";
+import { optionalAuth } from "./auth/middleware";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Movie routes
-  app.get("/api/movies", async (req, res) => {
+  // Authentication routes
+  app.use("/api/auth", authRoutes);
+  // Movie routes (with optional authentication)
+  app.get("/api/movies", optionalAuth, async (req, res) => {
     try {
       const movies = await storage.getAllMovies();
+      // Add user-specific data if authenticated
+      if (req.user) {
+        // Could add favorite status, watch history, etc.
+        console.log(`Movies requested by user: ${req.user.username}`);
+      }
       res.json(movies);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch movies" });
+      console.error('Get movies error:', error);
+      res.status(500).json({ 
+        error: "Failed to fetch movies",
+        code: "FETCH_MOVIES_ERROR"
+      });
     }
   });
 
