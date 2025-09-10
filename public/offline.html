@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MovieStreamer - You're Offline</title>
+  <meta name="theme-color" content="#6366f1">
+  <link rel="icon" href="/icons/icon-192x192.png">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #0f0f23 0%, #1e1b4b 100%);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    
+    .offline-container {
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 1rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .offline-icon {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    h1 {
+      color: #6366f1;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    
+    .subtitle {
+      color: #a5b4fc;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .description {
+      color: #cbd5e1;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .btn {
+      padding: 0.875rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .btn-primary {
+      background: #6366f1;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #5855eb;
+      transform: translateY(-1px);
+    }
+    
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .cached-content {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: rgba(34, 197, 94, 0.1);
+      border-radius: 0.5rem;
+      border: 1px solid rgba(34, 197, 94, 0.2);
+    }
+    
+    .cached-title {
+      color: #22c55e;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .cached-list {
+      list-style: none;
+      text-align: left;
+    }
+    
+    .cached-list li {
+      padding: 0.25rem 0;
+      color: #cbd5e1;
+      font-size: 0.9rem;
+    }
+    
+    .cached-list li:before {
+      content: "📱";
+      margin-right: 0.5rem;
+    }
+    
+    .network-status {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .network-offline {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+    }
+    
+    .network-online {
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      color: #86efac;
+    }
+    
+    @media (max-width: 480px) {
+      .offline-container {
+        padding: 1.5rem;
+        margin: 1rem;
+      }
+      
+      .offline-icon {
+        font-size: 3rem;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+      
+      .actions {
+        gap: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="offline-container">
+    <div class="offline-icon">📱</div>
+    <h1>You're Offline</h1>
+    <div class="subtitle">No Internet Connection</div>
+    <p class="description">
+      MovieStreamer needs an internet connection to load new content. 
+      Check your connection and try again.
+    </p>
+    
+    <div class="network-status" id="networkStatus">
+      <span id="statusText">🔴 Offline</span>
+    </div>
+    
+    <div class="actions">
+      <button class="btn btn-primary" onclick="window.location.reload()">
+        🔄 Try Again
+      </button>
+      <button class="btn btn-secondary" onclick="goHome()">
+        🏠 Go to Home
+      </button>
+    </div>
+    
+    <div class="cached-content" id="cachedContent" style="display: none;">
+      <div class="cached-title">
+        <span>💾</span>
+        <span>Available Offline</span>
+      </div>
+      <ul class="cached-list" id="cachedList">
+        <!-- Cached content will be populated by JavaScript -->
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Check network status
+    function updateNetworkStatus() {
+      const statusElement = document.getElementById('statusText');
+      const networkStatusElement = document.getElementById('networkStatus');
+      
+      if (navigator.onLine) {
+        statusElement.textContent = '🟢 Back Online';
+        networkStatusElement.className = 'network-status network-online';
+        
+        // Auto-reload after 2 seconds when back online
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        statusElement.textContent = '🔴 Offline';
+        networkStatusElement.className = 'network-status network-offline';
+      }
+    }
+    
+    // Listen for network status changes
+    window.addEventListener('online', updateNetworkStatus);
+    window.addEventListener('offline', updateNetworkStatus);
+    
+    // Initial status check
+    updateNetworkStatus();
+    
+    // Go to home function
+    function goHome() {
+      window.location.href = '/';
+    }
+    
+    // Check for cached content
+    async function checkCachedContent() {
+      if ('caches' in window) {
+        try {
+          const cacheNames = await caches.keys();
+          const cachedUrls = [];
+          
+          for (const cacheName of cacheNames) {
+            const cache = await caches.open(cacheName);
+            const requests = await cache.keys();
+            
+            for (const request of requests) {
+              const url = new URL(request.url);
+              if (url.pathname === '/' || 
+                  url.pathname.startsWith('/movies') || 
+                  url.pathname.startsWith('/api/movies')) {
+                cachedUrls.push(url.pathname);
+              }
+            }
+          }
+          
+          if (cachedUrls.length > 0) {
+            const cachedContent = document.getElementById('cachedContent');
+            const cachedList = document.getElementById('cachedList');
+            
+            cachedContent.style.display = 'block';
+            
+            // Show some cached content
+            const uniqueUrls = [...new Set(cachedUrls)].slice(0, 5);
+            cachedList.innerHTML = uniqueUrls.map(url => {
+              const displayName = url === '/' ? 'Home Page' : 
+                                url.startsWith('/api/') ? 'Movie Data' : 
+                                url.replace('/', '').replace('-', ' ');
+              return `<li>${displayName}</li>`;
+            }).join('');
+          }
+        } catch (error) {
+          console.log('Error checking cached content:', error);
+        }
+      }
+    }
+    
+    // Check cached content on load
+    checkCachedContent();
+    
+    // Retry connection every 30 seconds
+    setInterval(() => {
+      if (!navigator.onLine) {
+        // Try to fetch a small resource to test connection
+        fetch('/manifest.json', { 
+          method: 'HEAD',
+          cache: 'no-cache'
+        }).then(() => {
+          // Connection restored
+          updateNetworkStatus();
+        }).catch(() => {
+          // Still offline
+        });
+      }
+    }, 30000);
+    
+    // Service Worker messaging
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener('message', (event) => {
+        if (event.data && event.data.type === 'CACHE_UPDATED') {
+          checkCachedContent();
+        }
+      });
+    }
+    
+    // Add some visual feedback for button clicks
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        this.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          this.style.transform = '';
+        }, 150);
+      });
+    });
+  </script>
+</body>
+</html>
