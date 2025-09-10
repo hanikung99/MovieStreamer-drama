@@ -52,6 +52,32 @@
   --shadow-2xl: 0px 2px 0px 0px hsl(38, 92%, 50% / 0.00);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
+  
+  /* Mobile-first custom properties */
+  --mobile-header-height: 56px;
+  --mobile-bottom-nav-height: 64px;
+  --mobile-safe-area-top: env(safe-area-inset-top, 0px);
+  --mobile-safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --mobile-safe-area-left: env(safe-area-inset-left, 0px);
+  --mobile-safe-area-right: env(safe-area-inset-right, 0px);
+  
+  /* Touch-friendly sizing */
+  --touch-target-min: 44px;
+  --touch-target-comfortable: 48px;
+  --touch-target-large: 56px;
+  
+  /* Mobile-optimized spacing */
+  --mobile-padding-xs: 8px;
+  --mobile-padding-sm: 12px;
+  --mobile-padding-md: 16px;
+  --mobile-padding-lg: 20px;
+  --mobile-padding-xl: 24px;
+  
+  /* Video aspect ratios */
+  --aspect-vertical: 9 / 16;
+  --aspect-square: 1 / 1;
+  --aspect-horizontal: 16 / 9;
+  --aspect-mobile-card: 3 / 4;
 }
 
 .dark {
@@ -200,6 +226,210 @@
     /* Hero section touch optimizations */
     .hero-carousel {
       touch-action: pan-x;
+    }
+  }
+
+  /* Mobile-first utility classes */
+  @layer utilities {
+    /* Safe area utilities */
+    .pt-safe {
+      padding-top: var(--mobile-safe-area-top);
+    }
+    
+    .pb-safe {
+      padding-bottom: var(--mobile-safe-area-bottom);
+    }
+    
+    .pl-safe {
+      padding-left: var(--mobile-safe-area-left);
+    }
+    
+    .pr-safe {
+      padding-right: var(--mobile-safe-area-right);
+    }
+    
+    .p-safe {
+      padding-top: var(--mobile-safe-area-top);
+      padding-bottom: var(--mobile-safe-area-bottom);
+      padding-left: var(--mobile-safe-area-left);
+      padding-right: var(--mobile-safe-area-right);
+    }
+    
+    /* Touch target utilities */
+    .touch-target {
+      min-height: var(--touch-target-min);
+      min-width: var(--touch-target-min);
+    }
+    
+    .touch-target-comfortable {
+      min-height: var(--touch-target-comfortable);
+      min-width: var(--touch-target-comfortable);
+    }
+    
+    .touch-target-large {
+      min-height: var(--touch-target-large);
+      min-width: var(--touch-target-large);
+    }
+    
+    /* Mobile-specific heights */
+    .h-mobile-header {
+      height: var(--mobile-header-height);
+    }
+    
+    .h-mobile-nav {
+      height: var(--mobile-bottom-nav-height);
+    }
+    
+    .h-screen-mobile {
+      height: 100vh;
+      height: 100dvh; /* Dynamic viewport height for mobile */
+    }
+    
+    .min-h-screen-mobile {
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+    
+    .h-screen-safe {
+      height: calc(100vh - var(--mobile-safe-area-top) - var(--mobile-safe-area-bottom));
+      height: calc(100dvh - var(--mobile-safe-area-top) - var(--mobile-safe-area-bottom));
+    }
+    
+    /* Vertical video utilities */
+    .aspect-vertical {
+      aspect-ratio: var(--aspect-vertical);
+    }
+    
+    .aspect-mobile-card {
+      aspect-ratio: var(--aspect-mobile-card);
+    }
+    
+    /* Mobile-optimized text selection */
+    .select-none-mobile {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    
+    /* Touch-friendly interactions */
+    .touch-manipulation {
+      touch-action: manipulation;
+    }
+    
+    .touch-pan-x {
+      touch-action: pan-x;
+    }
+    
+    .touch-pan-y {
+      touch-action: pan-y;
+    }
+    
+    /* Mobile-optimized scrolling */
+    .scroll-smooth-mobile {
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Mobile-specific transforms */
+    .translate-z-0 {
+      transform: translateZ(0);
+    }
+    
+    /* Mobile-optimized backdrop blur */
+    .backdrop-blur-mobile {
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    
+    /* Mobile-friendly focus styles */
+    .focus-mobile {
+      @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background;
+    }
+    
+    /* Mobile grid utilities */
+    .grid-mobile-1 {
+      grid-template-columns: 1fr;
+    }
+    
+    .grid-mobile-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .grid-mobile-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    /* Mobile-optimized gaps */
+    .gap-mobile-xs {
+      gap: var(--mobile-padding-xs);
+    }
+    
+    .gap-mobile-sm {
+      gap: var(--mobile-padding-sm);
+    }
+    
+    .gap-mobile-md {
+      gap: var(--mobile-padding-md);
+    }
+    
+    .gap-mobile-lg {
+      gap: var(--mobile-padding-lg);
+    }
+    
+    /* Mobile-specific padding utilities */
+    .p-mobile-xs {
+      padding: var(--mobile-padding-xs);
+    }
+    
+    .p-mobile-sm {
+      padding: var(--mobile-padding-sm);
+    }
+    
+    .p-mobile-md {
+      padding: var(--mobile-padding-md);
+    }
+    
+    .p-mobile-lg {
+      padding: var(--mobile-padding-lg);
+    }
+    
+    .p-mobile-xl {
+      padding: var(--mobile-padding-xl);
+    }
+    
+    /* Mobile-optimized shadows */
+    .shadow-mobile {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .shadow-mobile-lg {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Mobile-specific animations */
+    .animate-fade-in-mobile {
+      animation: fade-in-up 0.4s ease-out;
+    }
+    
+    .animate-slide-up-mobile {
+      animation: slide-up 0.3s ease-out;
+    }
+    
+    .animate-bounce-gentle {
+      animation: bounce-gentle 1s ease-in-out infinite;
+    }
+    
+    /* Mobile-optimized transitions */
+    .transition-mobile {
+      transition-property: transform, opacity, background-color, border-color, color, fill, stroke;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 250ms;
+    }
+    
+    .transition-bounce-mobile {
+      transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transition-duration: 350ms;
     }
   }
 }
