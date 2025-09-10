@@ -10,6 +10,8 @@ import SearchOverlay from "@/components/search-overlay";
 import MoviesByCategory from "@/components/movies-by-category";
 import MobileHeader from "@/components/mobile-header";
 import BottomNavigation from "@/components/bottom-navigation";
+import VerticalVideoFeed from "@/components/vertical-video-feed";
+import MobileMovieCard from "@/components/mobile-movie-card";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { useMobileDevice } from "@/hooks/use-mobile";
 import type { Movie } from "@shared/schema";
@@ -19,12 +21,17 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   const device = useMobileDevice();
-  const sectionIds = ['hero-section', 'movies-section', 'series-section', 'shorts-section', 'reviews-section'];
+  const sectionIds = ['hero-section', 'movies-section', 'series-section', 'shorts-section', 'vertical-videos-section', 'reviews-section'];
   const activeSection = useActiveSection(sectionIds);
 
   const { data: allMovies = [], isLoading } = useQuery<Movie[]>({
     queryKey: ['/api/movies'],
   });
+
+  // Filter movies for vertical video feed (short films and trailers)
+  const verticalVideos = allMovies.filter(movie => 
+    movie.category === 'short' || movie.genre?.toLowerCase().includes('trailer')
+  ).slice(0, 10); // Limit to 10 videos for demo
 
   const scrollToSection = (sectionId: string) => {
     document.getElementById(sectionId)?.scrollIntoView({behavior: 'smooth'});
@@ -76,6 +83,46 @@ export default function Home() {
               Phim Ngắn
             </h2>
             <MoviesByCategory category="short" />
+          </div>
+        </section>
+
+        {/* Vertical Videos Section (Mobile-First) */}
+        <section id="vertical-videos-section" className="mobile:block md:hidden">
+          <div className="py-mobile-lg">
+            <div className="px-mobile-md mb-mobile-md">
+              <h2 className="text-xl-mobile font-bold text-center" data-testid="vertical-videos-section-title">
+                📱 Phim Dọc - Tối Ưu Mobile
+              </h2>
+              <p className="text-sm-mobile text-muted-foreground text-center mt-2">
+                Trải nghiệm xem phim dọc như TikTok, Instagram Reels
+              </p>
+            </div>
+            
+            {verticalVideos.length > 0 ? (
+              <VerticalVideoFeed 
+                movies={verticalVideos}
+                autoPlay={device.isMobile}
+                className="h-[70vh]"
+              />
+            ) : (
+              <div className="px-mobile-md">
+                <div className="bg-muted/10 rounded-mobile p-mobile-lg text-center">
+                  <p className="text-muted-foreground mb-mobile-md">
+                    Chưa có video dọc nào. Đây là demo với movie cards:
+                  </p>
+                  <div className="grid grid-cols-2 gap-mobile-md max-w-md mx-auto">
+                    {allMovies.slice(0, 4).map((movie) => (
+                      <MobileMovieCard
+                        key={movie.id}
+                        movie={movie}
+                        variant="poster"
+                        onClick={() => console.log(`Clicked: ${movie.title}`)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </section>
 
